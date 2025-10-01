@@ -208,14 +208,6 @@ Contributions are welcome! If you have suggestions for improvements, bug fixes, 
 * Document any new features or configurations.
 ---
 
-## 👨‍💻 Developer
-
-**Laxmikant S**
-
-🧑‍💼 [LinkedIn](https://www.linkedin.com/in/laxmikant-dadagi-b559b332a)
-
----
-
 ## 📃 License
 
 This project is licensed under the [MIT License](LICENSE).
