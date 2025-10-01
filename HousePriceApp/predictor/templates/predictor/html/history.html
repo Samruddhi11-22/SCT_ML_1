@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Prediction History</title>
+    <style>
+        body { margin:0; font-family: Arial, sans-serif; background:#121212; color:#f5f5f5; }
+        .navbar { background:#ff944d; padding:15px 20px; display:flex; justify-content:space-between; align-items:center; }
+        .navbar .logo { font-size:22px; font-weight:bold; color:#222; }
+        .navbar a { color:#222; text-decoration:none; margin-left:15px; font-weight:bold; }
+        .history-container { max-width:900px; margin:40px auto; padding:20px; background:#1e1e1e; border-radius:10px; box-shadow:0 4px 14px rgba(255,148,77,0.4); }
+        h2 { text-align:center; margin-bottom:20px; color:#ff944d; }
+        table { width:100%; border-collapse:collapse; }
+        th, td { padding:12px; text-align:center; border-bottom:1px solid #333; }
+        th { background:#ff944d; color:#222; }
+        tr:hover { background:#2a2a2a; }
+        .delete-btn { padding:6px 10px; background:#ff6600; color:#fff; border:none; border-radius:4px; cursor:pointer; }
+        .delete-btn:hover { background:#e65c00; }
+        footer { text-align:center; padding:15px; margin-top:30px; background:#1e1e1e; color:#ccc;}
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">📜 Prediction Log</div>
+        <nav>
+            <a href="{% url 'predictor:home' %}">Home</a>
+            <a href="{% url 'predictor:history' %}">History</a>
+        </nav>
+    </header>
+
+    <main class="history-container">
+        <h2>Your Past Predictions</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Sq. Ft</th>
+                    <th>Bedrooms</th>
+                    <th>Bathrooms</th>
+                    <th>Price (₹)</th>
+                    <th>Predicted On</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in records %}
+                <tr id="row-{{ record.id }}">
+                    <td>{{ record.square_footage }}</td>
+                    <td>{{ record.bedrooms }}</td>
+                    <td>{{ record.bathrooms }}</td>
+                    <td>{{ record.predicted_price|floatformat:"2" }}</td>
+                    <td>{{ record.created_at|date:"d M Y H:i" }}</td>
+                    <td><button class="delete-btn" onclick="deleteEntry('{{ record.id }}')">❌</button></td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="6">No records available yet.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </main>
+
+    <script>
+        const csrfToken = '{{ csrf_token }}';
+    </script>
+    <script src="{% static 'js/history.js' %}" defer></script>
+
+    <footer>
+        <p>&copy; 2025 SmartEstimator | Stay curious ✨</p>
+    </footer>
+</body>
+</html>

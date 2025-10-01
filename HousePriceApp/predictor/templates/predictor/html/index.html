@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SmartEstimator - Home</title>
+    <style>
+        body { margin:0; font-family: Arial, sans-serif; background:#121212; color:#f5f5f5; }
+        .navbar { background:#ff944d; padding:15px 20px; display:flex; justify-content:space-between; align-items:center; }
+        .navbar .logo { font-size:22px; font-weight:bold; color:#222; }
+        .navbar a { color:#222; text-decoration:none; margin-left:15px; font-weight:bold; }
+        .hero { display:flex; justify-content:center; align-items:center; min-height:80vh; }
+        .form-card { background:#1e1e1e; padding:30px; border-radius:10px; box-shadow:0 4px 14px rgba(255,148,77,0.4); width:350px; text-align:center;}
+        .form-card h1 { color:#ff944d; margin-bottom:20px; }
+        label { display:block; text-align:left; margin-top:15px; font-weight:bold; color:#f5f5f5; }
+        input { width:100%; padding:10px; border:1px solid #444; border-radius:5px; margin-top:5px; background:#2a2a2a; color:#f5f5f5; }
+        .btn { margin-top:20px; padding:12px 20px; background:#ff944d; color:#222; font-weight:bold; border:none; border-radius:6px; cursor:pointer; }
+        .btn:hover { background:#ffad73; }
+        footer { text-align:center; padding:15px; background:#1e1e1e; margin-top:40px; color:#ccc; }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">🏡 SmartEstimator</div>
+        <nav>
+            <a href="{% url 'predictor:home' %}">Home</a>
+            <a href="{% url 'predictor:history' %}">History</a>
+        </nav>
+    </header>
+
+    <main class="hero">
+        <div class="form-card">
+            <h1>Estimate Your Home Value Instantly</h1>
+            <form method="post" action="{% url 'predictor:predict' %}">
+                {% csrf_token %}
+                <label for="sq_footage">Square Footage</label>
+                <input type="number" name="sq_footage" id="sq_footage" placeholder="e.g., 1200" required>
+
+                <label for="bedrooms">Bedrooms</label>
+                <input type="number" name="bedrooms" id="bedrooms" placeholder="e.g., 3" required>
+
+                <label for="bathrooms">Bathrooms</label>
+                <input type="number" name="bathrooms" id="bathrooms" placeholder="e.g., 2" required>
+
+                <button type="submit" class="btn">🔍 Predict Price</button>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 SmartEstimator | Built with ❤️ using Django</p>
+    </footer>
+</body>
+</html>

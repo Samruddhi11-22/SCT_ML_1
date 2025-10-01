@@ -1,0 +1,7 @@
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+data/  # Exclude large data files as in the example
+db.sqlite3  # If added later for Django

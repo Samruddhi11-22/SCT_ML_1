@@ -1,0 +1,82 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Prediction Result</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { margin:0; font-family: Arial, sans-serif; background:#121212; color:#f5f5f5; }
+        .navbar { background:#ff944d; padding:15px 20px; display:flex; justify-content:space-between; align-items:center; }
+        .navbar .logo { font-size:22px; font-weight:bold; color:#222; }
+        .navbar a { color:#222; text-decoration:none; margin-left:15px; font-weight:bold; }
+        .result-card { max-width:800px; margin:40px auto; padding:25px; text-align:center; background:#1e1e1e; border-radius:10px; box-shadow:0 4px 14px rgba(255,148,77,0.4);}
+        .result-card h2 { color:#ff944d; margin-bottom:15px;}
+        .price { font-size:28px; font-weight:bold; color:#ff944d; margin-bottom:20px;}
+        canvas { margin:20px auto; max-width:700px;}
+        .btn { padding:12px 20px; background:#ff944d; color:#222; font-weight:bold; border:none; border-radius:6px; cursor:pointer; text-decoration:none;}
+        .btn:hover { background:#ffad73;}
+        footer { text-align:center; padding:15px; margin-top:30px; background:#1e1e1e; color:#ccc;}
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">🏠 Home Price Predictor</div>
+        <div>
+            <a href="{% url 'predictor:home' %}">Home</a>
+            <a href="{% url 'predictor:history' %}">History</a>
+        </div>
+    </nav>
+
+    <main>
+        <div class="result-card">
+            <h2>Predicted House Price</h2>
+            <p class="price">₹ {{ prediction_price|default:"0.00" }}</p>
+
+            <h3>Price Prediction Chart</h3>
+            <canvas id="priceChart"></canvas>
+
+            <a href="{% url 'predictor:home' %}" class="btn">Predict Again</a>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 House Price Predictor. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Pass Django variable into JS safely
+        const predictedPrice = parseFloat("{{ prediction_price|default:'0' }}");
+
+
+        const ctx = document.getElementById('priceChart').getContext('2d');
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['January','February','March','April','May','June','July'],
+                datasets: [{
+                    label: 'Predicted Price',
+                    data: [1200000, 1500000, 1800000, 1300000, 1600000, 1900000, predictedPrice],
+                    borderColor: '#ff944d',
+                    backgroundColor: 'rgba(255,148,77,0.3)',
+                    tension: 0.4,
+                    fill: true,
+                    pointBackgroundColor: '#ff944d',
+                    pointBorderColor: '#fff'
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: true, labels: { color:'#f5f5f5' } }
+                },
+                scales: {
+                    y: { beginAtZero:true, ticks:{color:'#f5f5f5'} },
+                    x: { ticks:{color:'#f5f5f5'} }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
